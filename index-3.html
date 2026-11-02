@@ -52,8 +52,6 @@
     outline:3px solid var(--coral);outline-offset:3px;
   }
 
-  .order{background:var(--ink);color:var(--paper);padding:clamp(24px,6vw,96px)}
-  .wrap{max-width:720px;margin:0 auto}
   .order h2{margin:0 0 8px;font-size:clamp(36px,7vw,72px);letter-spacing:-.035em;line-height:1;font-weight:800}
   .order p.lead{margin:0 0 36px;opacity:.8;font-size:18px}
   form{display:grid;gap:18px}
@@ -144,6 +142,28 @@
   const EMAIL_BENE  = "Ivonne.clobesscholz@icloud.com";   // bekommt jeden Auftrag als Kopie
   // ============================
 
+  // ====== FILTER ======
+  // Wörter, die du hier ergänzt, werden blockiert (klein geschrieben, ohne Umlaute).
+  const BAD_LONG = [
+    "hurensohn","arschloch","wichser","fotze","schlampe","missgeburt","vollidiot",
+    "spasti","drecksau","scheisskerl","fickdich","verpissdich","halts maul",
+    "bastard","motherfucker","asshole","bitch","fuck","cunt","nigger","nazi","heilhitler","sus",suss"
+  ];
+  const BAD_SHORT = ["hure","depp","idiot","spast","penner","lauch","kacke","fick","sau"];
+  const COOLDOWN_MS = 60 * 1000; // 1 Auftrag pro Minute
+
+  function normalize(s) {
+    return s.toLowerCase()
+      .replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss")
+    if (/(.)\1{7,}/.test(raw)) return "Bitte schreib deinen Auftrag in normalen Worten.";
+    if (String(fd.get("Beschreibung")).trim().length < 15) return "Bitte beschreib deinen Auftrag etwas genauer (mindestens 15 Zeichen).";
+    try {
+      const last = Number(localStorage.getItem("lastOrder") || 0);
+      if (Date.now() - last < COOLDOWN_MS) return "Bitte warte kurz, bevor du den nächsten Auftrag sendest.";
+    } catch (e) {}
+    return null;
+  }
+
   const form = document.getElementById("form");
   const btn = document.getElementById("send");
   const status = document.getElementById("status");
@@ -155,6 +175,12 @@
       status.textContent = "Bitte fülle Name, E-Mail, Art und Beschreibung aus.";
       status.classList.add("err");
       form.reportValidity();
+      return;
+    }
+    const problem = checkContent(new FormData(form));
+    if (problem) {
+      status.textContent = problem;
+      status.classList.add("err");
       return;
     }
     const data = new FormData(form);
@@ -173,6 +199,7 @@
       });
       const json = await res.json();
       if (res.ok && (json.success === true || json.success === "true")) {
+        try { localStorage.setItem("lastOrder", String(Date.now())); } catch (e) {}
         form.reset();
         status.textContent = "Gesendet. Wir melden uns bei dir.";
         status.classList.add("ok");
