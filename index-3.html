@@ -52,6 +52,8 @@
     outline:3px solid var(--coral);outline-offset:3px;
   }
 
+  .order{background:var(--ink);color:var(--paper);padding:clamp(24px,6vw,96px)}
+  .wrap{max-width:720px;margin:0 auto}
   .order h2{margin:0 0 8px;font-size:clamp(36px,7vw,72px);letter-spacing:-.035em;line-height:1;font-weight:800}
   .order p.lead{margin:0 0 36px;opacity:.8;font-size:18px}
   form{display:grid;gap:18px}
@@ -76,6 +78,38 @@
   footer{background:var(--ink);color:var(--paper);opacity:.95;padding:0 clamp(24px,6vw,96px) 40px;font-size:14px}
   footer .wrap{border-top:1px solid rgba(243,239,231,.25);padding-top:20px}
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+  /* Support-Bot */
+  #bot-toggle{
+    position:fixed;right:18px;bottom:18px;z-index:50;
+    background:var(--coral);color:#fff;border:0;border-radius:999px;
+    padding:14px 22px;font-weight:700;font-size:16px;cursor:pointer;
+    box-shadow:0 4px 14px rgba(16,36,63,.35);
+  }
+  #bot-toggle:hover{background:var(--paper);color:var(--ink)}
+  #bot{
+    position:fixed;right:18px;bottom:78px;z-index:50;
+    width:min(380px,calc(100vw - 36px));height:min(520px,calc(100svh - 110px));
+    background:var(--paper);color:var(--ink);border-radius:16px;overflow:hidden;
+    display:none;flex-direction:column;box-shadow:0 8px 30px rgba(16,36,63,.4);
+  }
+  #bot.open{display:flex}
+  #bot header{background:var(--ink);color:var(--paper);padding:14px 16px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+  #bot header button{background:none;border:0;color:var(--paper);font-size:22px;padding:0 4px;cursor:pointer;line-height:1;justify-self:auto}
+  #bot header button:hover{background:none;color:var(--coral)}
+  #bot-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .msg{max-width:85%;padding:10px 13px;border-radius:14px;font-size:15px;line-height:1.4;white-space:pre-wrap}
+  .msg.bot{background:#fff;align-self:flex-start;border-bottom-left-radius:4px}
+  .msg.me{background:var(--ink);color:var(--paper);align-self:flex-end;border-bottom-right-radius:4px}
+  .quick{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 10px}
+  .quick button{
+    background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:999px;
+    padding:6px 12px;font-size:14px;font-weight:500;cursor:pointer;justify-self:auto;
+  }
+  .quick button:hover{background:var(--coral);border-color:var(--coral);color:#fff}
+  #bot-form{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(16,36,63,.2);background:#fff}
+  #bot-form input{flex:1;padding:10px 12px;border:2px solid var(--ink);border-radius:999px;background:var(--field)}
+  #bot-form button{padding:10px 16px;font-size:15px;justify-self:auto}
 </style>
 </head>
 <body>
@@ -147,7 +181,7 @@
   const BAD_LONG = [
     "hurensohn","arschloch","wichser","fotze","schlampe","missgeburt","vollidiot",
     "spasti","drecksau","scheisskerl","fickdich","verpissdich","halts maul",
-    "bastard","motherfucker","asshole","bitch","fuck","cunt","nigger","nazi","heilhitler","sus",suss"
+    "bastard","motherfucker","asshole","bitch","fuck","cunt","nigger","nazi","heilhitler"
   ];
   const BAD_SHORT = ["hure","depp","idiot","spast","penner","lauch","kacke","fick","sau"];
   const COOLDOWN_MS = 60 * 1000; // 1 Auftrag pro Minute
@@ -155,6 +189,20 @@
   function normalize(s) {
     return s.toLowerCase()
       .replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss")
+      .replace(/0/g,"o").replace(/1/g,"i").replace(/3/g,"e").replace(/4/g,"a")
+      .replace(/5/g,"s").replace(/@/g,"a").replace(/\$/g,"s");
+  }
+
+  function checkContent(fd) {
+    const parts = ["Name","email","Beschreibung"].map(k => String(fd.get(k) || ""));
+    const raw = parts.join(" ");
+    const norm = normalize(raw);
+    const collapsed = norm.replace(/[^a-z]/g, "");   // "h u r e n s o h n" -> "hurensohn"
+    const words = norm.split(/[^a-z]+/).filter(Boolean);
+
+    if (BAD_LONG.some(w => collapsed.includes(w.replace(/ /g,"")))) return "Bitte formuliere deinen Auftrag freundlich.";
+    if (words.some(w => BAD_SHORT.includes(w))) return "Bitte formuliere deinen Auftrag freundlich.";
+    if (/(https?:\/\/|www\.|\.(com|ru|xyz|top|click)\b)/i.test(String(fd.get("Beschreibung")))) return "Bitte schreib keine Links in den Auftrag.";
     if (/(.)\1{7,}/.test(raw)) return "Bitte schreib deinen Auftrag in normalen Worten.";
     if (String(fd.get("Beschreibung")).trim().length < 15) return "Bitte beschreib deinen Auftrag etwas genauer (mindestens 15 Zeichen).";
     try {
@@ -213,6 +261,135 @@
       btn.disabled = false;
     }
   });
+</script>
+<button id="bot-toggle" type="button" aria-expanded="false" aria-controls="bot">Hilfe</button>
+<section id="bot" aria-label="Support-Bot">
+  <header><span>Support von Maxim &amp; Bene</span><button type="button" id="bot-close" aria-label="Schließen">×</button></header>
+  <div id="bot-msgs" aria-live="polite"></div>
+  <div class="quick" id="bot-quick"></div>
+  <form id="bot-form" autocomplete="off">
+    <input id="bot-input" type="text" placeholder="Deine Frage …" aria-label="Deine Frage">
+    <button type="submit">Senden</button>
+  </form>
+</section>
+
+<script>
+(function () {
+  // ====== WISSEN DES BOTS (hier kannst du Antworten ändern oder ergänzen) ======
+  const FAQ = [
+    { keys: ["hallo","hi","hey","moin","servus","guten tag"],
+      answer: "Hallo! Ich bin der Support-Bot von Maxim & Bene. Frag mich etwas zu unseren Aufträgen." },
+    { keys: ["wer seid","wer bist","ueber euch","über euch","maxim","bene"],
+      answer: "Wir sind Maxim & Bene. Wir erstellen Präsentationen und mehr." },
+    { keys: ["was macht","was bietet","angebot","leistung","koennt ihr","könnt ihr","praesentation","präsentation","webseite","website","poster","flyer"],
+      answer: "Wir erstellen Präsentationen, Webseiten, Poster und Flyer. Du hast etwas anderes im Kopf? Schreib es einfach in dein Auftragsformular." },
+    { keys: ["auftrag","bestellen","bestellung","anfrage","beauftragen","senden","abschicken"],
+      answer: "So gibst du einen Auftrag auf:\n1. Öffne das Formular „Dein Auftrag“.\n2. Gib Name, E-Mail und Art ein.\n3. Beschreib kurz, worum es geht.\n4. Tippe auf „Auftrag senden“.",
+      action: "form" },
+    { keys: ["preis","kosten","kostet","teuer","bezahlen","geld","euro"],
+      answer: "Der Preis hängt vom Umfang ab. Beschreib deinen Auftrag im Formular, dann melden wir uns mit einem Angebot.",
+      action: "form" },
+    { keys: ["dauer","wie lange","schnell","frist","deadline","bis wann","fertig"],
+      answer: "Trag im Formular bei „Bis wann?“ dein Wunschdatum ein. Wir melden uns und sagen dir, ob es klappt." },
+    { keys: ["kontakt","erreichen","email","e-mail","mail","melden","antwort"],
+      answer: "Am besten über das Auftragsformular. Wir melden uns per E-Mail bei der Adresse, die du dort einträgst. Schau auch im Spam-Ordner nach." ,
+      action: "form" },
+    { keys: ["fehler","klappt nicht","geht nicht","funktioniert nicht","problem","bug","kaputt","error"],
+      answer: "Wenn das Formular nicht abgeschickt wird, prüf bitte:\n• Name, E-Mail, Art und Beschreibung sind ausgefüllt.\n• Die Beschreibung hat mindestens 15 Zeichen.\n• Keine Links und keine Beleidigungen im Text.\n• Seit deinem letzten Auftrag ist mindestens eine Minute vergangen.\nKlappt es danach immer noch nicht, versuch es später noch einmal." },
+    { keys: ["danke","dankeschoen","dankeschön","super","cool","top"],
+      answer: "Gern! Wenn du noch etwas wissen willst, frag einfach." },
+    { keys: ["tschuess","tschüss","bye","ciao","bis dann"],
+      answer: "Tschüss und bis bald!" }
+  ];
+  const FALLBACK = "Das weiß ich leider nicht. Schick uns bitte einen Auftrag oder deine Frage über das Formular, dann antworten Maxim und Bene dir persönlich.";
+  const QUICK = ["Wie gebe ich einen Auftrag auf?", "Was kostet das?", "Was macht ihr?", "Wie lange dauert es?", "Das Formular geht nicht"];
+  // =============================================================================
+
+  const toggle = document.getElementById("bot-toggle");
+  const box = document.getElementById("bot");
+  const msgs = document.getElementById("bot-msgs");
+  const quick = document.getElementById("bot-quick");
+  const input = document.getElementById("bot-input");
+  let greeted = false;
+
+  const norm = s => s.toLowerCase().trim();
+
+  function add(text, who) {
+    const d = document.createElement("div");
+    d.className = "msg " + who;
+    d.textContent = text;
+    msgs.appendChild(d);
+    msgs.scrollTop = msgs.scrollHeight;
+    return d;
+  }
+
+  function addFormButton() {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = "Zum Formular";
+    b.style.cssText = "align-self:flex-start;background:#f0654a;color:#fff;border:0;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer";
+    b.addEventListener("click", () => {
+      box.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+      document.getElementById("auftrag").scrollIntoView({ behavior: "smooth" });
+    });
+    msgs.appendChild(b);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function answerFor(q) {
+    const t = norm(q);
+    let best = null, bestScore = 0;
+    for (const item of FAQ) {
+      let score = 0;
+      for (const k of item.keys) if (t.includes(k)) score += k.length;
+      if (score > bestScore) { bestScore = score; best = item; }
+    }
+    return best;
+  }
+
+  function ask(q) {
+    q = q.trim();
+    if (!q) return;
+    add(q, "me");
+    const hit = answerFor(q);
+    setTimeout(() => {
+      add(hit ? hit.answer : FALLBACK, "bot");
+      if (!hit || hit.action === "form") addFormButton();
+    }, 350);
+  }
+
+  QUICK.forEach(q => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = q;
+    b.addEventListener("click", () => ask(q));
+    quick.appendChild(b);
+  });
+
+  function open() {
+    box.classList.add("open");
+    toggle.setAttribute("aria-expanded", "true");
+    if (!greeted) {
+      greeted = true;
+      add("Hallo! Ich bin der Support-Bot von Maxim & Bene. Wie kann ich helfen?", "bot");
+    }
+    input.focus();
+  }
+  function close() {
+    box.classList.remove("open");
+    toggle.setAttribute("aria-expanded", "false");
+  }
+
+  toggle.addEventListener("click", () => box.classList.contains("open") ? close() : open());
+  document.getElementById("bot-close").addEventListener("click", close);
+  document.getElementById("bot-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const v = input.value;
+    input.value = "";
+    ask(v);
+  });
+})();
 </script>
 </body>
 </html>
