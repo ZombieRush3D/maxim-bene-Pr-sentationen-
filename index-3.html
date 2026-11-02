@@ -4,15 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Maxim &amp; Bene – Präsentationen und mehr</title>
-<meta name="description" content="Wir erstellen Präsentationen und mehr. Schick uns deinen Auftrag.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700;800&display=swap" rel="stylesheet">
+<meta name="description" content="Wir erstellen Präsentationen und mehr – kostenlos. Schick uns deinen Auftrag.">
+<link rel="canonical" href="https://zombierush3d.github.io/maxim-bene-Pr-sentationen-/">
+<meta name="theme-color" content="#10243f">
+<meta property="og:title" content="Maxim &amp; Bene – Präsentationen und mehr">
+<meta property="og:description" content="Wir erstellen Präsentationen und mehr – kostenlos. Schick uns deinen Auftrag.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2310243f'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23f0654a'/%3E%3C/svg%3E">
 <style>
   :root{
     --paper:#f3efe7;
     --ink:#10243f;
     --coral:#f0654a;
+    --coral-d:#bf3a1a;
     --line:#10243f;
     --field:#faf8f3;
   }
@@ -21,30 +25,15 @@
   body{
     margin:0;background:var(--paper);color:var(--ink);
     font-family:"Inter Tight","Helvetica Neue",Arial,sans-serif;
-    line-height:1.5;
-  }
-  .hero{
-    position:relative;min-height:100svh;padding:clamp(20px,5vw,64px);
-    display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;
-  }
-  .hero::after{
-    content:"";position:absolute;right:0;bottom:0;
-    width:min(62vw,720px);height:min(62vw,720px);
-    background:var(--ink);clip-path:polygon(100% 0,100% 100%,0 100%);
-    z-index:0;
-  }
-  h1{
-    position:relative;z-index:1;margin:0;
-    font-weight:800;letter-spacing:-.045em;line-height:.9;
     font-size:clamp(64px,17vw,230px);
   }
   .bottom{position:relative;z-index:1;padding-bottom:4px}
   .rule{display:flex;align-items:center;margin-bottom:28px}
   .rule i{flex:1;height:2px;background:var(--line)}
   .rule b{width:22px;height:22px;border-radius:50%;background:var(--coral);flex:none}
-  .tag{margin:0 0 28px;color:var(--coral);font-weight:500;font-size:clamp(18px,2.4vw,28px)}
+  .tag{margin:0 0 28px;color:var(--coral-d);font-weight:500;font-size:clamp(18px,2.4vw,28px)}
   .cta{
-    display:inline-block;background:var(--coral);color:#fff;text-decoration:none;
+    display:inline-block;background:var(--coral-d);color:#fff;text-decoration:none;
     font-weight:700;font-size:18px;padding:14px 28px;border-radius:999px;
   }
   .cta:hover{background:var(--ink)}
@@ -68,7 +57,7 @@
   .hp{position:absolute;left:-9999px;height:0;overflow:hidden}
   button{
     font:inherit;font-weight:700;font-size:18px;cursor:pointer;border:0;
-    background:var(--coral);color:#fff;border-radius:999px;padding:15px 30px;justify-self:start;
+    background:var(--coral-d);color:#fff;border-radius:999px;padding:15px 30px;justify-self:start;
   }
   button:hover{background:#fff;color:var(--ink)}
   button:disabled{opacity:.6;cursor:wait}
@@ -79,10 +68,52 @@
   footer .wrap{border-top:1px solid rgba(243,239,231,.25);padding-top:20px}
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
+  .section{padding:clamp(24px,6vw,96px)}
+  .section h2{margin:0 0 28px;font-size:clamp(36px,7vw,72px);letter-spacing:-.035em;line-height:1;font-weight:800}
+  .grid{display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));max-width:1100px}
+  .grid h3{margin:0 0 6px;font-size:22px;border-top:3px solid var(--coral);padding-top:12px}
+  .grid p{margin:0;max-width:34ch}
+  .steps{counter-reset:s;list-style:none;margin:0;padding:0;max-width:720px;display:grid;gap:18px}
+  .steps li{counter-increment:s;display:grid;grid-template-columns:48px 1fr;align-items:start;font-size:19px}
+  .steps li::before{content:counter(s);width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-weight:700;font-size:16px}
+  .feedback{background:var(--paper)}
+  .feedback form{max-width:720px}
+  .feedback input,.feedback select,.feedback textarea{background:#fff;border-color:var(--ink)}
+  .feedback textarea{min-height:110px}
+  .feedback .status.ok{color:#1f7a3d}
+  .feedback .status.err{color:#b3261e}
+  .feedback button:hover{background:var(--ink);color:#fff}
+  .legal{max-width:720px;font-size:15px}
+  .legal details{border-top:1px solid rgba(243,239,231,.25);padding:12px 0}
+  .legal summary{cursor:pointer;font-weight:700}
+  footer nav{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:18px}
+  footer a{color:var(--paper)}
+  html{scroll-padding-top:60px}
+  .topnav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;gap:6px 22px;align-items:center;
+    padding:12px clamp(16px,4vw,48px);background:rgba(243,239,231,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(16,36,63,.12);overflow-x:auto;white-space:nowrap}
+  .topnav b{font-weight:800;letter-spacing:-.02em;margin-right:auto}
+  .topnav a{color:var(--ink);text-decoration:none;font-weight:500;font-size:15px}
+  .topnav a:hover{color:var(--coral-d);text-decoration:underline;text-underline-offset:4px}
+  .hero{padding-top:clamp(72px,9vw,110px)}
+  .rule b{animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(240,101,74,.55)}50%{box-shadow:0 0 0 12px rgba(240,101,74,0)}}
+  .js .rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+  .js .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}.rule b{animation:none}}
+  .faq{max-width:720px}
+  .faq details{border-top:2px solid var(--ink);padding:16px 0}
+  .faq details:last-child{border-bottom:2px solid var(--ink)}
+  .faq summary{cursor:pointer;font-weight:700;font-size:20px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+  .faq summary::after{content:"+";color:var(--coral-d);font-size:26px;line-height:1}
+  .faq details[open] summary::after{content:"–"}
+  .faq p{margin:10px 0 0;max-width:60ch}
+  .cta,button{transition:background .2s,color .2s,transform .2s}
+  .cta:hover,button:hover{transform:translateY(-2px)}
   /* Support-Bot */
   #bot-toggle{
     position:fixed;right:18px;bottom:18px;z-index:50;
-    background:var(--coral);color:#fff;border:0;border-radius:999px;
+    background:var(--coral-d);color:#fff;border:0;border-radius:999px;
     padding:14px 22px;font-weight:700;font-size:16px;cursor:pointer;
     box-shadow:0 4px 14px rgba(16,36,63,.35);
   }
@@ -113,6 +144,14 @@
 </style>
 </head>
 <body>
+<nav class="topnav" aria-label="Hauptmenü">
+  <b>Maxim &amp; Bene</b>
+  <a href="#leistungen">Leistungen</a>
+  <a href="#ablauf">Ablauf</a>
+  <a href="#auftrag">Auftrag</a>
+  <a href="#faq">Fragen</a>
+  <a href="#feedback">Feedback</a>
+</nav>
 
 <header class="hero">
   <h1>Maxim<br>&amp; Bene</h1>
@@ -124,10 +163,31 @@
 </header>
 
 <main>
+  <section class="section" id="leistungen">
+    <h2>Was wir machen</h2>
+    <p style="font-size:20px;font-weight:700;margin:-12px 0 28px">Alles kostenlos. Keine versteckten Kosten.</p>
+    <div class="grid">
+      <div><h3>Präsentationen</h3><p>Klare Folien für Schule, Uni, Verein oder Firma.</p></div>
+      <div><h3>Webseiten</h3><p>Einfache Seiten, die auf Handy und Computer gut aussehen.</p></div>
+      <div><h3>Poster und Flyer</h3><p>Gedruckt oder digital, passend zu deinem Anlass.</p></div>
+      <div><h3>Und mehr</h3><p>Du hast eine andere Idee? Beschreib sie im Auftrag.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="ablauf" style="padding-top:0">
+    <h2>So läuft es ab</h2>
+    <ol class="steps">
+      <li>Du schickst uns deinen Auftrag über das Formular.</li>
+      <li>Wir melden uns per E-Mail und klären offene Fragen.</li>
+      <li>Wir erstellen dein Ergebnis.</li>
+      <li>Du bekommst es von uns per E-Mail.</li>
+    </ol>
+  </section>
+
   <section class="order" id="auftrag">
     <div class="wrap">
       <h2>Dein Auftrag</h2>
-      <p class="lead">Beschreib kurz, was du brauchst. Wir melden uns per E-Mail bei dir.</p>
+      <p class="lead">Beschreib kurz, was du brauchst. Es kostet nichts. Wir melden uns per E-Mail bei dir.</p>
 
       <form id="form" novalidate>
         <div class="row">
@@ -164,16 +224,77 @@
       </form>
     </div>
   </section>
+
+  <section class="section" id="faq">
+    <h2>Häufige Fragen</h2>
+    <div class="faq">
+      <details><summary>Kostet das etwas?</summary><p>Nein. Alles bei uns ist kostenlos und es gibt keine versteckten Kosten.</p></details>
+      <details><summary>Wie schnell meldet ihr euch?</summary><p>Wir melden uns per E-Mail, sobald wir deinen Auftrag gelesen haben. Wenn es eilig ist, trag im Formular ein Datum bei „Bis wann?“ ein.</p></details>
+      <details><summary>Was muss ich im Auftrag schreiben?</summary><p>Name, E-Mail, was du brauchst und worum es geht. Je genauer die Beschreibung, desto besser wird das Ergebnis.</p></details>
+      <details><summary>Was passiert mit meinen Daten?</summary><p>Wir nutzen sie nur für deinen Auftrag. Mehr steht im Datenschutz ganz unten auf der Seite.</p></details>
+    </div>
+  </section>
+
+  <section class="section feedback" id="feedback">
+    <h2>Dein Feedback</h2>
+    <form id="fb-form" novalidate>
+      <div class="row">
+        <label>Dein Name (optional)
+          <input name="Name" type="text" autocomplete="name">
+        </label>
+        <label>Wie hat es dir gefallen?
+          <select name="Bewertung" required>
+            <option value="">Bitte wählen</option>
+            <option>5 von 5 – sehr gut</option>
+            <option>4 von 5</option>
+            <option>3 von 5</option>
+            <option>2 von 5</option>
+            <option>1 von 5 – schlecht</option>
+          </select>
+        </label>
+      </div>
+      <label>Was sollen wir wissen?
+        <textarea name="Nachricht" required></textarea>
+      </label>
+      <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" id="fb-send">Feedback senden</button>
+      <div class="status" id="fb-status" role="status" aria-live="polite"></div>
+    </form>
+  </section>
 </main>
 
 <footer>
-  <div class="wrap">Maxim &amp; Bene</div>
+  <div class="wrap">
+    <nav aria-label="Seitenmenü">
+      <a href="#leistungen">Leistungen</a>
+      <a href="#auftrag">Auftrag</a>
+      <a href="#feedback">Feedback</a>
+      <a href="#">Nach oben</a>
+      <a href="#impressum">Impressum und Datenschutz</a>
+    </nav>
+    <div class="legal" id="impressum">
+      <details>
+        <summary>Impressum</summary>
+        <p>Maxim und Bene<br>
+        [Vor- und Nachname, Straße, PLZ Ort – bitte ausfüllen]<br>
+        E-Mail: [deine E-Mail – bitte ausfüllen]</p>
+      </details>
+      <details>
+        <summary>Datenschutz</summary>
+        <p>Diese Seite wird bei GitHub Pages gehostet. Dabei kann GitHub technische Daten wie deine IP-Adresse verarbeiten.</p>
+        <p>Wenn du das Auftrags- oder Feedbackformular absendest, schicken wir deine Angaben (Name, E-Mail, Text) über den Dienst FormSubmit per E-Mail an uns. Wir nutzen sie nur, um deinen Auftrag zu bearbeiten oder auf dein Feedback zu antworten.</p>
+        <p>Die Seite setzt keine Cookies und nutzt keine Werbe- oder Analysedienste. Im Browser speichern wir nur die Uhrzeit deiner letzten Nachricht, damit niemand Spam schickt.</p>
+        <p>Du kannst jederzeit Auskunft oder Löschung deiner Daten verlangen. Schreib uns dafür an die E-Mail-Adresse oben.</p>
+      </details>
+    </div>
+    <p>Maxim &amp; Bene</p>
+  </div>
 </footer>
 
 <script>
   // ====== HIER EINTRAGEN ======
-  const EMAIL_MAXIM = "maximwibe16@gmail.com";  // bekommt jeden Auftrag
-  const EMAIL_BENE  = "Ivonne.clobesscholz@icloud.com";   // bekommt jeden Auftrag als Kopie
+  const EMAIL_MAXIM = "maxim@example.com";  // bekommt jeden Auftrag
+  const EMAIL_BENE  = "bene@example.com";   // bekommt jeden Auftrag als Kopie
   // ============================
 
   // ====== FILTER ======
@@ -193,7 +314,7 @@
       .replace(/5/g,"s").replace(/@/g,"a").replace(/\$/g,"s");
   }
 
-  function checkContent(fd) {
+  function checkContent(fd, minLen = 15, key = "lastOrder") {
     const parts = ["Name","email","Beschreibung"].map(k => String(fd.get(k) || ""));
     const raw = parts.join(" ");
     const norm = normalize(raw);
@@ -204,12 +325,26 @@
     if (words.some(w => BAD_SHORT.includes(w))) return "Bitte formuliere deinen Auftrag freundlich.";
     if (/(https?:\/\/|www\.|\.(com|ru|xyz|top|click)\b)/i.test(String(fd.get("Beschreibung")))) return "Bitte schreib keine Links in den Auftrag.";
     if (/(.)\1{7,}/.test(raw)) return "Bitte schreib deinen Auftrag in normalen Worten.";
-    if (String(fd.get("Beschreibung")).trim().length < 15) return "Bitte beschreib deinen Auftrag etwas genauer (mindestens 15 Zeichen).";
+    if (String(fd.get("Beschreibung")).trim().length < minLen) return "Bitte schreib etwas mehr (mindestens " + minLen + " Zeichen).";
     try {
-      const last = Number(localStorage.getItem("lastOrder") || 0);
+      const last = Number(localStorage.getItem(key) || 0);
       if (Date.now() - last < COOLDOWN_MS) return "Bitte warte kurz, bevor du den nächsten Auftrag sendest.";
     } catch (e) {}
     return null;
+  }
+
+  async function sendMail(fd) {
+    const targets = Array.from(new Set([EMAIL_MAXIM, EMAIL_BENE]));
+    const results = await Promise.allSettled(targets.map(async (to) => {
+      const res = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(to), {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: fd
+      });
+      const json = await res.json();
+      if (!(res.ok && (json.success === true || json.success === "true"))) throw new Error("fail");
+    }));
+    return results.some(r => r.status === "fulfilled");
   }
 
   const form = document.getElementById("form");
@@ -233,26 +368,20 @@
     }
     const data = new FormData(form);
     data.append("_subject", "Neuer Auftrag von " + data.get("Name"));
-    data.append("_cc", EMAIL_BENE);
     data.append("_template", "table");
     data.append("_captcha", "false");
 
     btn.disabled = true;
     status.textContent = "Wird gesendet …";
     try {
-      const res = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(EMAIL_MAXIM), {
-        method: "POST",
-        headers: { "Accept": "application/json" },
-        body: data
-      });
-      const json = await res.json();
-      if (res.ok && (json.success === true || json.success === "true")) {
+      const ok = await sendMail(data);
+      if (ok) {
         try { localStorage.setItem("lastOrder", String(Date.now())); } catch (e) {}
         form.reset();
         status.textContent = "Gesendet. Wir melden uns bei dir.";
         status.classList.add("ok");
       } else {
-        throw new Error(json.message || "Fehler");
+        throw new Error("Fehler");
       }
     } catch (err) {
       status.textContent = "Das hat nicht geklappt. Bitte versuche es gleich noch einmal.";
@@ -261,6 +390,66 @@
       btn.disabled = false;
     }
   });
+
+  // ====== FEEDBACK ======
+  const fbForm = document.getElementById("fb-form");
+  const fbBtn = document.getElementById("fb-send");
+  const fbStatus = document.getElementById("fb-status");
+
+  fbForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    fbStatus.className = "status";
+    if (!fbForm.checkValidity()) {
+      fbStatus.textContent = "Bitte wähle eine Bewertung und schreib kurz etwas dazu.";
+      fbStatus.classList.add("err");
+      return;
+    }
+    const fd = new FormData(fbForm);
+    const check = new FormData();
+    check.append("Name", fd.get("Name") || "");
+    check.append("email", "");
+    check.append("Beschreibung", fd.get("Nachricht") || "");
+    const problem = checkContent(check, 5, "lastFeedback");
+    if (problem) {
+      fbStatus.textContent = problem;
+      fbStatus.classList.add("err");
+      return;
+    }
+    fd.append("_subject", "Neues Feedback: " + fd.get("Bewertung"));
+    fd.append("_template", "table");
+    fd.append("_captcha", "false");
+
+    fbBtn.disabled = true;
+    fbStatus.textContent = "Wird gesendet …";
+    try {
+      const ok = await sendMail(fd);
+      if (ok) {
+        try { localStorage.setItem("lastFeedback", String(Date.now())); } catch (err) {}
+        fbForm.reset();
+        fbStatus.textContent = "Danke für dein Feedback!";
+        fbStatus.classList.add("ok");
+      } else {
+        throw new Error("Fehler");
+      }
+    } catch (err) {
+      fbStatus.textContent = "Das hat nicht geklappt. Bitte versuche es gleich noch einmal.";
+      fbStatus.classList.add("err");
+    } finally {
+      fbBtn.disabled = false;
+    }
+  });
+</script>
+<script>
+(function(){
+  try{
+    document.documentElement.classList.add("js");
+    const els=document.querySelectorAll(".section h2,.order h2,.grid>div,.steps li,.faq details,.order .lead,main form");
+    els.forEach(e=>e.classList.add("rv"));
+    if(!("IntersectionObserver" in window)){els.forEach(e=>e.classList.add("in"));return;}
+    const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target);}}),{threshold:.12});
+    els.forEach(e=>io.observe(e));
+  }catch(e){document.documentElement.classList.remove("js");}
+})();
 </script>
 <button id="bot-toggle" type="button" aria-expanded="false" aria-controls="bot">Hilfe</button>
 <section id="bot" aria-label="Support-Bot">
@@ -287,7 +476,7 @@
       answer: "So gibst du einen Auftrag auf:\n1. Öffne das Formular „Dein Auftrag“.\n2. Gib Name, E-Mail und Art ein.\n3. Beschreib kurz, worum es geht.\n4. Tippe auf „Auftrag senden“.",
       action: "form" },
     { keys: ["preis","kosten","kostet","teuer","bezahlen","geld","euro"],
-      answer: "Der Preis hängt vom Umfang ab. Beschreib deinen Auftrag im Formular, dann melden wir uns mit einem Angebot.",
+      answer: "Bei uns ist alles kostenlos. Es gibt keine versteckten Kosten. Schick uns einfach deinen Auftrag.",
       action: "form" },
     { keys: ["dauer","wie lange","schnell","frist","deadline","bis wann","fertig"],
       answer: "Trag im Formular bei „Bis wann?“ dein Wunschdatum ein. Wir melden uns und sagen dir, ob es klappt." },
@@ -327,7 +516,7 @@
     const b = document.createElement("button");
     b.type = "button";
     b.textContent = "Zum Formular";
-    b.style.cssText = "align-self:flex-start;background:#f0654a;color:#fff;border:0;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer";
+    b.style.cssText = "align-self:flex-start;background:#bf3a1a;color:#fff;border:0;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer";
     b.addEventListener("click", () => {
       box.classList.remove("open");
       toggle.setAttribute("aria-expanded", "false");
