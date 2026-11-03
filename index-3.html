@@ -25,6 +25,21 @@
   body{
     margin:0;background:var(--paper);color:var(--ink);
     font-family:"Inter Tight","Helvetica Neue",Arial,sans-serif;
+    line-height:1.5;
+  }
+  .hero{
+    position:relative;min-height:100svh;padding:clamp(20px,5vw,64px);
+    display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;right:0;bottom:0;
+    width:min(62vw,720px);height:min(62vw,720px);
+    background:var(--ink);clip-path:polygon(100% 0,100% 100%,0 100%);
+    z-index:0;
+  }
+  h1{
+    position:relative;z-index:1;margin:0;
+    font-weight:800;letter-spacing:-.045em;line-height:.9;
     font-size:clamp(64px,17vw,230px);
   }
   .bottom{position:relative;z-index:1;padding-bottom:4px}
@@ -294,7 +309,7 @@
 <script>
   // ====== HIER EINTRAGEN ======
   const EMAIL_MAXIM = "maximwibe16@gmail.com";  // bekommt jeden Auftrag
-  const EMAIL_BENE  = "Ivonne.clobesscholz@icloud.com";   // bekommt jeden Auftrag als Kopie
+  const EMAIL_BENE  = "ivonne.clobesscholz@icloud.com";   // bekommt jeden Auftrag als Kopie
   // ============================
 
   // ====== FILTER ======
@@ -334,16 +349,21 @@
   }
 
   async function sendMail(fd) {
-    const targets = Array.from(new Set([EMAIL_MAXIM, EMAIL_BENE]));
+    const targets = Array.from(new Set([EMAIL_MAXIM, EMAIL_BENE].map(e => e.trim().toLowerCase())));
+    const info = [];
     const results = await Promise.allSettled(targets.map(async (to) => {
       const res = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(to), {
         method: "POST",
         headers: { "Accept": "application/json" },
         body: fd
       });
-      const json = await res.json();
-      if (!(res.ok && (json.success === true || json.success === "true"))) throw new Error("fail");
+      const json = await res.json().catch(() => ({}));
+      const good = res.ok && (json.success === true || json.success === "true");
+      info.push(to + ": " + (good ? "ok" : "FEHLER") + (json.message ? " – " + json.message : ""));
+      if (!good) throw new Error("fail");
     }));
+    // Testmodus: Seite mit #test am Ende der Adresse öffnen, dann zeigt ein Fenster das Ergebnis pro Person
+    if (location.hash === "#test") alert(info.join("\n\n"));
     return results.some(r => r.status === "fulfilled");
   }
 
