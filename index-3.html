@@ -254,6 +254,38 @@
     .card:hover{transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-4px)}
     .tiles>div:hover{transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
   }
+  /* Futuristisch */
+  .hero{background-image:linear-gradient(rgba(16,36,63,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(16,36,63,.07) 1px,transparent 1px);background-size:52px 52px}
+  .hero h1{background:linear-gradient(100deg,#10243f 35%,#3b6fb6 50%,#10243f 65%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+  .ready .hero h1{animation:rise 1s cubic-bezier(.2,.7,.2,1) .05s backwards,shine 7s linear 1.2s infinite}
+  @keyframes shine{to{background-position:-220% center}}
+  .rule b{background:var(--coral);box-shadow:0 0 18px 4px rgba(240,101,74,.6)}
+  .canva{margin:-14px 0 26px;font-weight:700;letter-spacing:.04em;font-size:15px;text-transform:uppercase}
+  .canva::before{content:"✦ ";color:var(--coral-d)}
+  .card:hover{box-shadow:0 0 0 2px var(--coral),0 0 30px rgba(240,101,74,.4)}
+  .cta{background-image:linear-gradient(110deg,var(--coral-d),#e2572f,var(--coral-d));background-size:200% auto;animation:flow 4s linear infinite}
+  @keyframes flow{to{background-position:200% center}}
+  .showcase{background-color:var(--ink);color:var(--paper);
+    background-image:linear-gradient(rgba(243,239,231,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(243,239,231,.07) 1px,transparent 1px);background-size:44px 44px}
+  .showcase .lead{margin:-8px 0 28px;max-width:60ch;opacity:.85;font-size:18px}
+  .showcase .tile{border-color:rgba(243,239,231,.4);box-shadow:0 0 34px rgba(240,101,74,.28)}
+  .showcase .tiles p{display:flex;align-items:center;gap:10px}
+  .chip{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(243,239,231,.5);border-radius:999px;padding:2px 9px;opacity:.85}
+  .t4{background:linear-gradient(135deg,var(--coral-d),#ff9a6b)}
+  .t4::before{content:"";position:absolute;left:9%;top:20%;width:34%;aspect-ratio:1;border-radius:50%;background:var(--paper)}
+  .t4::after{content:"";position:absolute;left:52%;top:24%;width:38%;height:10%;background:#fff;border-radius:4px;box-shadow:0 26px 0 -2px rgba(255,255,255,.7),0 50px 0 -2px rgba(255,255,255,.5),0 74px 0 -2px rgba(255,255,255,.35)}
+  .t5{background:var(--ink)}
+  .t5::before{content:"";position:absolute;left:35%;top:20%;width:30%;aspect-ratio:1;border-radius:50%;border:10px solid var(--coral);box-shadow:0 0 24px rgba(240,101,74,.6)}
+  .t5::after{content:"";position:absolute;left:43%;top:62%;width:14%;height:8%;background:var(--paper);border-radius:4px;box-shadow:0 18px 0 -1px rgba(243,239,231,.4)}
+  .t6{background:var(--paper)}
+  .t6::before{content:"";position:absolute;inset:10%;border:3px solid var(--ink);border-radius:8px}
+  .t6::after{content:"";position:absolute;left:30%;top:34%;width:40%;height:9%;background:var(--coral-d);border-radius:4px;box-shadow:0 28px 0 -1px var(--ink),0 50px 0 -1px rgba(16,36,63,.45)}
+  .t7{background:#e9e3d6}
+  .t7::before{content:"";position:absolute;left:8%;top:14%;width:40%;height:72%;border-radius:4px;background:repeating-linear-gradient(var(--ink) 0 5px,transparent 5px 15px)}
+  .t7::after{content:"";position:absolute;right:8%;top:14%;width:36%;height:72%;border-radius:6px;background:linear-gradient(var(--coral-d),var(--coral-d)) 0 0/100% 40% no-repeat,repeating-linear-gradient(rgba(16,36,63,.55) 0 4px,transparent 4px 14px) 0 100%/100% 55% no-repeat}
+  .panel{display:grid;gap:20px}
+  @media(min-width:700px){.panel{grid-template-columns:1.15fr 1fr;align-items:center;max-width:880px}}
+  .panel .tile{margin:0}
   /* Support-Bot */
   #bot-toggle{
     position:fixed;right:18px;bottom:18px;z-index:50;
@@ -318,6 +350,7 @@ try{if(!sessionStorage.getItem("seen")&&!matchMedia("(prefers-reduced-motion: re
   <div class="bottom">
     <div class="rule" aria-hidden="true"><i></i><b></b></div>
     <p class="tag">Wir erstellen Präsentationen und mehr.</p>
+    <p class="canva">Gestaltet mit Canva</p>
     <a class="cta" href="#auftrag">Auftrag senden →</a>
   </div>
 </header>
@@ -344,12 +377,17 @@ try{if(!sessionStorage.getItem("seen")&&!matchMedia("(prefers-reduced-motion: re
     </div>
   </section>
 
-  <section class="section alt" id="beispiele">
+  <section class="section showcase" id="beispiele">
     <h2>So kann das aussehen</h2>
+    <p class="lead">Wir gestalten alles mit Canva. Das sind Beispiel-Looks zur Orientierung, dein Design machen wir nach deinen Wünschen.</p>
     <div class="tiles">
-      <div><div class="tile t1" role="img" aria-label="Beispiel einer Präsentationsfolie"></div><p>Präsentation</p></div>
-      <div><div class="tile t2" role="img" aria-label="Beispiel eines Posters"></div><p>Poster</p></div>
-      <div><div class="tile t3" role="img" aria-label="Beispiel einer Webseite"></div><p>Webseite</p></div>
+      <div><div class="tile t1" role="img" aria-label="Beispiel einer Präsentationsfolie"></div><p>Präsentation <span class="chip">Canva</span></p></div>
+      <div><div class="tile t2" role="img" aria-label="Beispiel eines Posters"></div><p>Poster <span class="chip">Canva</span></p></div>
+      <div><div class="tile t3" role="img" aria-label="Beispiel einer Webseite"></div><p>Webseite <span class="chip">Canva</span></p></div>
+      <div><div class="tile t4" role="img" aria-label="Beispiel eines Flyers"></div><p>Flyer <span class="chip">Canva</span></p></div>
+      <div><div class="tile t5" role="img" aria-label="Beispiel eines Logos"></div><p>Logo <span class="chip">Canva</span></p></div>
+      <div><div class="tile t6" role="img" aria-label="Beispiel einer Einladung"></div><p>Einladung / Karte <span class="chip">Canva</span></p></div>
+      <div><div class="tile t7" role="img" aria-label="Beispiel eines Handouts"></div><p>Referat / Handout <span class="chip">Canva</span></p></div>
     </div>
   </section>
 
@@ -444,6 +482,7 @@ try{if(!sessionStorage.getItem("seen")&&!matchMedia("(prefers-reduced-motion: re
               <option>Weiß ich noch nicht</option>
               <option>PowerPoint</option>
               <option>Google Präsentationen</option>
+              <option>Canva-Link zum Weiterbearbeiten</option>
               <option>PDF</option>
               <option>Bild (PNG/JPG)</option>
               <option>Webseite</option>
@@ -499,6 +538,7 @@ try{if(!sessionStorage.getItem("seen")&&!matchMedia("(prefers-reduced-motion: re
       <details><summary>Muss ich Texte oder Bilder mitschicken?</summary><p>Wenn du schon etwas hast, gern. Wir melden uns per E-Mail und du kannst es uns dann als Antwort schicken.</p></details>
       <details><summary>Kann ich Änderungen wünschen?</summary><p>Schreib uns einfach, was dir fehlt. Wir schauen, was möglich ist.</p></details>
       <details><summary>In welchem Format bekomme ich das Ergebnis?</summary><p>Wähle im Formular dein Wunschformat. Alles Weitere klären wir per E-Mail.</p></details>
+      <details><summary>Womit gestaltet ihr das?</summary><p>Wir arbeiten mit Canva. Ob du dein Design zum Weiterbearbeiten bekommst, klären wir im Auftrag.</p></details>
       <details><summary>Wie erreiche ich euch?</summary><p>Am besten über das Auftragsformular. Für Lob und Kritik gibt es das Feedback-Formular.</p></details>
     </div>
   </section>
@@ -775,6 +815,7 @@ try{if(!sessionStorage.getItem("seen")&&!matchMedia("(prefers-reduced-motion: re
   const tabs=document.getElementById("tabs"),panel=document.getElementById("panel");
   if(!tabs||!panel)return;
   const names=Object.keys(T);
+  const PV={"Präsentation":"t1","Referat / Handout":"t7","Webseite":"t3","Poster / Flyer":"t2","Logo":"t5","Einladung / Karte":"t6"};
   function show(n,animate){
     tabs.querySelectorAll("button").forEach(b=>b.setAttribute("aria-selected",b.dataset.n===n?"true":"false"));
     const x=T[n];
@@ -789,7 +830,9 @@ try{if(!sessionStorage.getItem("seen")&&!matchMedia("(prefers-reduced-motion: re
       if(sel)Array.from(sel.options).forEach(o=>{if(o.text===n)sel.value=o.text;});
       document.getElementById("auftrag").scrollIntoView({behavior:"smooth"});
     });
-    panel.append(h,p,ul,go);
+    const pt=document.createElement("div");pt.append(h,p,ul,go);
+    const pv=document.createElement("div");pv.className="tile "+PV[n];pv.setAttribute("role","img");pv.setAttribute("aria-label","Beispiel-Look im Canva-Stil");
+    panel.append(pt,pv);
     if(animate){panel.classList.remove("swap");void panel.offsetWidth;panel.classList.add("swap");}
   }
   names.forEach(n=>{
@@ -885,6 +928,8 @@ try{if(!sessionStorage.getItem("seen")&&!matchMedia("(prefers-reduced-motion: re
       answer: "Wenn das Formular nicht abgeschickt wird, prüf bitte:\n• Name, E-Mail, Art und Beschreibung sind ausgefüllt.\n• Die Beschreibung hat mindestens 15 Zeichen.\n• Keine Links und keine Beleidigungen im Text.\n• Seit deinem letzten Auftrag ist mindestens eine Minute vergangen.\nKlappt es danach immer noch nicht, versuch es später noch einmal." },
     { keys: ["danke","dankeschoen","dankeschön","super","cool","top"],
       answer: "Gern! Wenn du noch etwas wissen willst, frag einfach." },
+    { keys: ["canva","womit","programm","gestaltet","tool"],
+      answer: "Wir gestalten alles mit Canva. Im Formular kannst du als Wunschformat auch einen Canva-Link angeben." },
     { keys: ["tschuess","tschüss","bye","ciao","bis dann"],
       answer: "Tschüss und bis bald!" }
   ];
